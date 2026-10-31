@@ -2,7 +2,7 @@
 /*
  * 배포 직전 빌드 결과물 점검 (npm run verify 의 마지막 단계)
  * dist/site/ 를 운영에 올려도 되는지 본다. 파일을 고치지 않는다. 문제가 있으면 종료 코드 1.
- * - 허브와 확장마다 소개·방침·도움말 페이지가 있는지
+ * - 허브와 확장마다 소개·방침·도움말 페이지가 있는지, React 페이지가 사전 렌더링됐는지(빈 화면 방지)
  * - 채워지지 않은 {{자리표시자}} 가 없는지
  * - CSP('self'만 허용)에 막히는 인라인 <script>, style="" 속성이 없는지
  * - HTML이 참조하는 같은 사이트 파일(/assets/... 등)이 실제로 있는지
@@ -21,9 +21,16 @@ const files = new Set(listFiles(out))
 const problems = []
 
 const required = ['index.html', '404.html']
-for (const id of Object.keys(cfg.extensions || {}))
+const react = ['index.html']
+for (const [id, e] of Object.entries(cfg.extensions || {})) {
   required.push(`${id}/index.html`, `${id}/privacy.html`, `${id}/support.html`, `${id}/icon.png`)
+  if (e.thumb) required.push(`${id}/${e.thumb}`)
+  react.push(`${id}/index.html`)
+}
 for (const f of required) if (!files.has(f)) problems.push(`${f}: 없음`)
+for (const f of react)
+  if (files.has(f) && fs.readFileSync(path.join(out, f), 'utf8').includes('<div id="root"></div>'))
+    problems.push(`${f}: 사전 렌더링 안 됨 (JS 오기 전 빈 화면)`)
 
 for (const rel of files) {
   if (!/\.(html|css)$/i.test(rel)) continue
