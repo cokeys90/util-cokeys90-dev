@@ -1,7 +1,8 @@
 {
   "site": {
     "title": "ToolHub",
-    "tagline": "'언젠가 만들어야지' 하고 미뤄 둔 도구들, AI도 있겠다 이때다 싶어서 드디어 만들었어요. 직접 쓰려고 만든 작은 도구 모음이에요.",
+    "headline": "직접 쓰려고 만든 작은 도구 모음이에요.",
+    "tagline": "'언젠가 만들어야지' 하고 미뤄 둔 도구들, AI도 있겠다 이때다 싶어서 드디어 만들었어요.",
     "repo": "https://github.com/cokeys90/util-cokeys90-dev"
   },
   "developer": "cokeys90",
@@ -20,7 +21,8 @@
       "name": "구독 채널 정리함",
       "summary": "YouTube 구독 채널을 한눈에 보고 쉬는 채널을 정리하거나, 여러 계정의 구독을 하나로 합쳐요.",
       "storeUrl": "",
-      "privacyUpdated": "2026-11-01"
+      "privacyUpdated": "2026-11-01",
+      "thumb": "screenshot-1.png"
     }
   }
 }

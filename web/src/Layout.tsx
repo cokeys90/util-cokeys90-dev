@@ -1,11 +1,14 @@
 import type { ReactNode } from 'react'
 import { config } from './config'
 
-const container = 'mx-auto max-w-[760px] px-5'
+// 글 위주 페이지는 760px, 카드 격자(허브)는 wide 로 1120px
+const width = (wide?: boolean) => `mx-auto px-5 ${wide ? 'max-w-[1120px]' : 'max-w-[760px]'}`
 
 type NavItem = { href: string; label: string; current?: boolean }
 
-export function Layout({ nav, children }: { nav: NavItem[]; children: ReactNode }) {
+export function Layout(p: { nav: NavItem[]; wide?: boolean; children: ReactNode }) {
+  const { nav, children } = p
+  const container = width(p.wide)
   return (
     <>
       <header className="border-b border-line bg-surface">
