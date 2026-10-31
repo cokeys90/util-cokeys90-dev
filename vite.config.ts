@@ -21,7 +21,7 @@ const esc = (s: string) =>
 // JS 없이도 보이는 <title>·description은 HTML에 직접 채움
 const htmlVars: Record<string, string> = {
   SITE_TITLE: esc(config.site.title),
-  SITE_TAGLINE: esc(config.site.tagline),
+  SITE_DESCRIPTION: esc(`${config.site.headline} ${config.site.tagline}`),
 }
 
 export default defineConfig({

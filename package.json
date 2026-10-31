@@ -6,8 +6,8 @@
   "description": "util.cokeys90.dev — web tools & Chrome extensions hub",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node kit/scripts/build-site.mjs",
-    "build:strict": "vite build && node kit/scripts/build-site.mjs --strict",
+    "build": "vite build && node kit/scripts/prerender.mjs && node kit/scripts/build-site.mjs",
+    "build:strict": "vite build && node kit/scripts/prerender.mjs && node kit/scripts/build-site.mjs --strict",
     "preview": "vite preview",
     "pack:ext": "node kit/scripts/pack.mjs",
     "new:ext": "node kit/scripts/new-extension.mjs",

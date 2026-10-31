@@ -12,7 +12,8 @@ web/                     React 페이지 (Vite 멀티 페이지 + Tailwind + Typ
   <id>/                  확장 소개 → /<id>/   (index.html·main.tsx 진입점, Page.tsx 페이지 내용)
   src/
     Hub.tsx              허브 화면 (카드는 release.config.json 에서)
-    mount.tsx            진입점(main.tsx)에서만 부르는 mount()
+    mount.tsx            진입점(main.tsx)에서만 부르는 mount(). 사전 렌더링된 HTML이 있으면 hydrate
+    prerender.tsx        빌드 때 페이지를 HTML로 그림 (Hub + web/*/Page.tsx 자동)
     Layout.tsx           상단 바·본문 틀·푸터
     ExtensionPage.tsx    확장 소개 공통 틀 (아이콘·설치 버튼) + Card·Features·H2·Shot
     config.ts            release.config.json 타입
@@ -25,7 +26,7 @@ site/                    정적 파일 (빌드 때 그대로 복사 후 자리�
 vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/
 ```
 
-- 빌드 흐름: `vite build` 가 `dist/site/` 를 비우고 `web/` 페이지를 빌드하며 `site/` 를 복사 → `build-site.mjs` 가 `site/` 의 HTML·CSS 자리표시자를 채워 덮어씀
+- 빌드 흐름: `vite build` 가 `dist/site/` 를 비우고 `web/` 페이지를 빌드하며 `site/` 를 복사 → `prerender.mjs` 가 React 페이지를 HTML로 미리 그려 `<div id="root">` 에 넣음 → `build-site.mjs` 가 `site/` 의 HTML·CSS 자리표시자를 채워 덮어씀
 - 새 React 페이지: `web/<id>/index.html` + `main.tsx`(mount만) + `Page.tsx`(컴포넌트)를 만들면 진입점에 자동으로 들어간다. 진입점과 컴포넌트를 한 파일에 섞지 않는다 (Fast Refresh, ESLint `react-refresh` 규칙). 확장은 `npm run new:ext` 가 `kit/templates/web/` 로 만들어 준다
 - `tools/<id>/` — 웹 도구 (예정). 각자 빌드해서 `dist/site/<id>/` 에 결과를 넣는다. `vite build` 가 `dist/site/` 를 비우므로 도구 빌드는 반드시 그 뒤에 돌린다
 - `extensions/<id>/` — Chrome 확장 소스, `store/<id>/` — 스토어 등록 자료
@@ -67,6 +68,8 @@ vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/
 ## 사이트
 
 - 허브와 확장 소개 페이지는 React(`web/`), 개인정보처리방침·지원·404는 정적 HTML(`site/`). 방침·지원은 스토어 심사·법적 문서라 JS 없이 읽혀야 하므로 React로 옮기지 않는다
+- React 페이지는 사전 렌더링된다(JS 오기 전 빈 화면 방지). 그래서 컴포넌트 렌더 중에 `window`·`document`·`localStorage`·현재 시각·난수를 쓰지 않는다. 필요하면 `useEffect` 안에서. 어기면 빌드가 깨지거나 hydrate 불일치가 난다
+- 허브 문구: `release.config.json` 의 `site.headline`(3초 안에 읽히는 핵심 한 줄)과 `site.tagline`(이야기). 카드 미리보기는 확장의 `thumb`(`site/<id>/` 파일 이름), 없으면 아이콘
 - SPA 라우터를 쓰지 않는다. 페이지마다 `web/<id>/index.html` 진입점 (도구·확장이 같은 `/<id>/` 경로 공간을 쓰므로)
 - 색·글꼴 값은 `site/assets/tokens.css` 하나에만 둔다. 새 색은 거기에 변수를 만들고 `styles.css` 의 `@theme inline` 에 이름을 붙인다
 - CSP가 `'self'` 만 허용 → 인라인 `<script>`, HTML `style=""` 속성, 외부 폰트·CDN 금지 (React `style={{}}` 도 쓰지 말고 Tailwind 클래스로)
