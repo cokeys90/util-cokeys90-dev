@@ -17,15 +17,18 @@
 ## 구조
 
 ```
-site/                   허브와 공통 정적 페이지 → dist/site/
-  index.html            허브 (도구·확장 카드는 release.config.json에서 생성)
-  404.html, assets/     공통 404, 공통 스타일
-  <id>/                 확장별 소개·개인정보처리방침·지원 페이지
+web/                    React 페이지 (Vite + Tailwind + TypeScript) → dist/site/
+  index.html            허브 (도구·확장 카드는 release.config.json에서 읽음)
+  <id>/                 확장별 소개 페이지
+  src/                  공통 레이아웃·컴포넌트·스타일
+site/                   정적 페이지와 이미지 (빌드 때 그대로 복사)
+  404.html, assets/     공통 404, 정적 페이지 스타일
+  <id>/                 확장별 개인정보처리방침·지원 페이지, 아이콘·스크린샷
 tools/<id>/             웹 도구 (예정) → dist/site/<id>/ 로 빌드
 extensions/<id>/        Chrome 확장 소스 (MV3, 빌드 없이 그대로 로드 가능)
 store/<id>/             확장 스토어 등록 문구, 스크린샷, 프로모 이미지
 kit/
-  scripts/              빌드·패키징·점검 스크립트 (의존성 없음)
+  scripts/              빌드·패키징·점검 스크립트
   templates/            새 확장 뼈대
   CHECKLIST.md          확장 스토어 제출 체크리스트
 release.config.json     사이트 제목, 개발자 정보, 도구·확장 목록
@@ -42,11 +45,14 @@ release.config.json     사이트 제목, 개발자 정보, 도구·확장 목�
 ## 명령어
 
 ```bash
-npm install                         # 처음 한 번 (prettier, husky)
-npm run check                       # JS 문법 + manifest 규칙 점검
-npm run build                       # site/ → dist/site/ (Firebase 공개 폴더)
+npm install                         # 처음 한 번
+npm run dev                         # 개발 서버 (React 페이지 + site/ 정적 파일)
+npm run check                       # JS 문법 + manifest 규칙 + 타입체크 + ESLint
+npm run verify                      # check + strict 빌드 + 결과물 점검 (push 전 훅·CI와 같음)
+npm run build                       # web/ + site/ → dist/site/ (Firebase 공개 폴더)
+npm run preview                     # 빌드 결과 미리 보기
 npm run pack:ext subs-organizer     # dist/subs-organizer-<ver>.zip (스토어 업로드용)
-npm run new:ext my-tool "내 도구"   # 새 확장 뼈대 + 사이트 페이지 + 스토어 문구
+npm run new:ext my-tool "내 도구"   # 새 확장 뼈대 + 소개·방침·도움말 페이지 + 스토어 문구
 ```
 
 확장을 로컬에서 써 보려면 `chrome://extensions` → 개발자 모드 → **압축해제된 확장 프로그램 로드** → `extensions/<id>/` 선택.

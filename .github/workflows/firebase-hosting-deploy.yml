@@ -11,23 +11,20 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: '26'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Check
-        run: npm run check
-
-      - name: Build site
-        # 개발자 이름·문의 메일이 예시 값이면 배포하지 않는다
-        run: npm run build:strict
+      - name: Verify
+        # 점검(tsc·eslint·manifest) + strict 빌드(예시 값이면 실패) + 결과물 점검. 하나라도 실패하면 배포하지 않는다
+        run: npm run verify
 
       - name: Deploy to Firebase Hosting (live channel)
         uses: FirebaseExtended/action-hosting-deploy@v0
@@ -36,3 +33,7 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_UTIL_COKEYS90_DEV }}
           channelId: live
           projectId: util-cokeys90-dev
+
+      - name: Smoke test live site
+        # 배포 직후 운영 주소에서 주요 페이지가 열리고 이번 빌드가 반영됐는지 확인
+        run: node kit/scripts/smoke-live.mjs

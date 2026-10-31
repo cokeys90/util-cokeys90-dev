@@ -18,10 +18,15 @@
 - [ ] [subs-organizer] 크롬 웹 스토어 심사 결과 (2026-10-31 제출)
   - 확인: 승인·반려 메일, 개발자 대시보드 상태
   - 승인되면 → 상세 3, 반려되면 → 상세 "반려되면"
+- [ ] [poe2-search] firebase가 고정한 `@grpc/grpc-js` 취약점 패치 (2026-11-01 기준 high 4건, firestore 미사용이라 실제 영향 없음)
+  - 확인: poe2-search에서 `npm audit` → grpc-js 항목이 `npm audit fix`(force 없이)로 해결되는지
+  - 풀리면 `npm audit fix` 후 `npm run build`, `npm run verify`
+- [ ] [저장소] eslint·typescript-eslint 안의 `minimatch` DoS 취약점 패치 (2026-11-01 기준 moderate, 개발 도구라 사이트에는 안 들어감)
+  - 기다리는 것: eslint가 고친 minimatch 11.0.1 이상을 쓰는 버전 출시 + 공개 7일 경과 (`.npmrc` `min-release-age`)
+  - 확인: `npm audit` → minimatch 항목이 `npm audit fix`(force 없이)로 해결되는지. 풀리면 `npm run verify`
 
 ## 미뤄둔 일
 
-- [ ] [저장소] 워크플로 Node 20 경고 정리: `actions/checkout`, `actions/setup-node` 최신 메이저로 올리기
 - [ ] [저장소] Firebase CLI 업데이트: `npm install -g firebase-tools`
 - [ ] [subs-organizer] (선택) 대시보드에서 util.cokeys90.dev 도메인 소유 확인 → 등록정보 "공식 URL" 지정
 - [ ] [poe2-search] `/poe2` 로 옮기기 (CLAUDE.md "웹 도구 옮겨 오기" 참고)
