@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{EXT_NAME}}</title>
+<meta name="description" content="TODO: 한 줄 소개">
+<link rel="icon" href="/{{EXT_ID}}/icon.png">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="home" href="/">{{SITE_TITLE}}</a>
+  <nav><a href="/{{EXT_ID}}/" aria-current="page">소개</a><a href="/{{EXT_ID}}/privacy.html">개인정보처리방침</a><a href="/{{EXT_ID}}/support.html">도움말</a></nav>
+</div></header>
+<main class="main">
+  <div class="hero"><img src="/{{EXT_ID}}/icon.png" alt=""><div><h1>{{EXT_NAME}}</h1><p class="meta">Chrome 확장 프로그램 · 무료</p></div></div>
+  <p class="lead">TODO: 이 확장이 해결하는 문제를 한두 문장으로</p>
+  <div class="cta">
+    <a class="btn primary" href="{{STORE_URL}}" {{STORE_DISABLED}}>Chrome 웹 스토어에서 설치</a>
+    <a class="btn" href="/{{EXT_ID}}/support.html">사용법 보기</a>
+  </div>
+  <img class="shot" src="/{{EXT_ID}}/screenshot-1.png" alt="TODO: 스크린샷 설명">
+  <h2>할 수 있는 일</h2>
+  <div class="grid">
+    <div class="card"><h3>TODO 기능 1</h3><p>TODO</p></div>
+    <div class="card"><h3>TODO 기능 2</h3><p>TODO</p></div>
+  </div>
+  <h2>개인정보</h2>
+  <div class="card ok"><p>TODO: 데이터가 어디서 처리되고 어디로 가는지 한 문단. 자세한 내용은 <a href="/{{EXT_ID}}/privacy.html">개인정보처리방침</a>을 확인해 주세요.</p></div>
+  <div class="foot">문의: <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a></div>
+</main>
+</body>
+</html>

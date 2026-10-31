@@ -1,0 +1,26 @@
+{
+  "site": {
+    "title": "side-quests",
+    "tagline": "본업 사이사이 깨는 서브 퀘스트. 직접 쓰려고 만든 작은 도구들입니다.",
+    "repo": "https://github.com/cokeys90/util-cokeys90-dev"
+  },
+  "developer": "cokeys90",
+  "contactEmail": "cokeys90@gmail.com",
+  "domain": "util.cokeys90.dev",
+  "tools": {
+    "poe2-search": {
+      "name": "PoE2 경로석·서판 검색기",
+      "summary": "Path of Exile 2 경로석과 서판 옵션을 고르면, 게임 검색창에 그대로 붙여넣을 정규식 검색어를 만들어 줘요.",
+      "url": "https://poe2.cokeys90.dev",
+      "tag": "Path of Exile 2"
+    }
+  },
+  "extensions": {
+    "subs-organizer": {
+      "name": "구독 채널 정리함",
+      "summary": "YouTube 구독 채널을 한눈에 보고 쉬는 채널을 정리하거나, 여러 계정의 구독을 하나로 합쳐요.",
+      "storeUrl": "",
+      "privacyUpdated": "2026-11-01"
+    }
+  }
+}

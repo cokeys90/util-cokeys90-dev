@@ -1,0 +1,59 @@
+<!-- 템플릿: 사용법과 자주 묻는 질문은 구독 채널 정리함 기준 예시입니다. 확장에 맞게 고치세요. -->
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>도움말 · {{EXT_NAME}}</title>
+<link rel="icon" href="/{{EXT_ID}}/icon.png">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="home" href="/">{{SITE_TITLE}}</a>
+  <nav><a href="/{{EXT_ID}}/">소개</a><a href="/{{EXT_ID}}/privacy.html">개인정보처리방침</a><a href="/{{EXT_ID}}/support.html" aria-current="page">도움말</a></nav>
+</div></header>
+
+<main class="main">
+  <h1>도움말</h1>
+  <p class="lead">{{EXT_NAME}} 사용법과 자주 묻는 질문입니다.</p>
+
+  <h2>사용법</h2>
+  <ol>
+    <li>Chrome에서 YouTube에 로그인합니다. 여러 계정을 합치려면 합칠 계정 모두 로그인해 둡니다.</li>
+    <li>툴바의 확장 프로그램 아이콘을 누르면 정리함이 열립니다.</li>
+    <li>정리할 계정을 1개 이상 고릅니다. 1개를 고르면 그 계정을 정리하고, 2개 이상 고르면 구독 목록을 합칩니다.</li>
+    <li>필요 없는 채널을 오른쪽으로 빼둡니다. <b>휴면</b>을 누른 뒤 <b>보이는 채널 모두 빼기</b>를 쓰면 오래 쉰 채널을 한 번에 뺄 수 있어요.</li>
+    <li><b>실행하기</b>를 누르고 바뀌는 내용을 확인한 뒤 <b>시작</b>을 누릅니다.</li>
+    <li>작업용 YouTube 창이 열리고 채널을 하나씩 처리합니다. 끝날 때까지 그 창을 닫거나 최소화하지 마세요.</li>
+  </ol>
+
+  <h2>활동 상태 기준</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>표시</th><th>기준</th></tr></thead>
+    <tbody>
+      <tr><td>활발</td><td>30일 안에 영상이나 쇼츠를 올림</td></tr>
+      <tr><td>뜸함</td><td>마지막 업로드가 30일에서 1년 사이</td></tr>
+      <tr><td>휴면</td><td>1년 넘게 업로드 없음</td></tr>
+      <tr><td>영상 없음</td><td>공개된 영상과 쇼츠가 없음</td></tr>
+      <tr><td>확인 불가</td><td>YouTube에서 최근 업로드 정보를 받지 못함. 나중에 다시 열면 다시 확인함</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>자주 묻는 질문</h2>
+  <h3>계정 목록이 안 보여요</h3>
+  <p>이 브라우저에서 YouTube에 로그인되어 있는지 확인한 뒤 <b>다시 불러오기</b>를 눌러 주세요. 브랜드 계정은 아직 지원하지 않아요.</p>
+  <h3>실패로 표시된 채널이 있어요</h3>
+  <p>작업이 끝나면 구독 목록을 다시 받아 목표와 비교합니다. 실제로 남은 채널이 있으면 <b>남은 것 다시 시도</b>를 눌러 주세요. 계속 실패하면 YouTube가 잠시 구독을 막은 것일 수 있으니 몇 시간 뒤에 다시 시도해 주세요.</p>
+  <h3>다른 계정의 구독도 바뀌나요?</h3>
+  <p>아니요. 남길 계정의 구독만 바뀝니다. 채널을 열 때마다 남길 계정으로 열렸는지 확인하고, 다른 계정이면 건너뜁니다.</p>
+  <h3>작업 중에 정리함 탭을 닫아도 되나요?</h3>
+  <p>네. 작업은 계속되고, 아이콘을 다시 누르면 진행 상황을 볼 수 있어요. 작업용 YouTube 창만 닫지 말아 주세요.</p>
+  <h3>저장된 정보를 지우고 싶어요</h3>
+  <p>정리함 첫 화면 아래 <b>저장된 데이터 지우기</b>를 누르거나 확장 프로그램을 삭제하면 됩니다.</p>
+
+  <h2>문의</h2>
+  <p>오류가 생기면 어떤 화면에서 무엇을 눌렀는지와 화면 캡처를 함께 보내 주세요.<br><a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a></p>
+</main>
+</body>
+</html>

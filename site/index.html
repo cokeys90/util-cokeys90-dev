@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{{SITE_TITLE}}</title>
+<meta name="description" content="{{SITE_TAGLINE}}">
+<link rel="icon" href="/favicon.png">
+<link rel="stylesheet" href="/assets/site.css">
+</head>
+<body>
+<header class="top"><div class="in">
+  <a class="home mono" href="/">{{SITE_TITLE}}</a>
+  <nav><a href="#tools">웹 도구</a><a href="#extensions">확장 프로그램</a><a href="{{REPO_URL}}">GitHub</a></nav>
+</div></header>
+
+<main class="main">
+  <p class="eyebrow mono">util.cokeys90.dev</p>
+  <h1 class="hub-title mono">side-quests<span class="caret" aria-hidden="true">_</span></h1>
+  <p class="lead">{{SITE_TAGLINE}}</p>
+
+  <section id="tools" class="hub-sec">
+    <div class="sec-h"><h2>웹 도구</h2><span class="meta">브라우저에서 바로 써요</span></div>
+    <div class="list">
+{{TOOL_CARDS}}
+    </div>
+  </section>
+
+  <section id="extensions" class="hub-sec">
+    <div class="sec-h"><h2>Chrome 확장 프로그램</h2><span class="meta">개발자 서버 없음 · 데이터는 브라우저 안에만</span></div>
+    <div class="list">
+{{EXTENSION_CARDS}}
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>소스 코드: <a href="{{REPO_URL}}">{{REPO_URL}}</a></span>
+    <span>문의: <a href="mailto:{{CONTACT_EMAIL}}">{{CONTACT_EMAIL}}</a></span>
+  </div>
+</main>
+</body>
+</html>

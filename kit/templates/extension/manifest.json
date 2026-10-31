@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "{{EXT_NAME}}",
+  "version": "0.1.0",
+  "description": "TODO: 132자 이내 한 줄 설명. 스토어 요약으로 그대로 쓰입니다.",
+  "permissions": ["storage"],
+  "host_permissions": [],
+  "background": { "service_worker": "background.js" },
+  "action": {
+    "default_title": "{{EXT_NAME}}",
+    "default_icon": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+  },
+  "icons": { "16": "icons/icon16.png", "32": "icons/icon32.png", "48": "icons/icon48.png", "128": "icons/icon128.png" }
+}
