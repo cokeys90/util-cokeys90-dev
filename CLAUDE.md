@@ -6,8 +6,27 @@ util.cokeys90.dev 전체를 관리하는 저장소. 공개 저장소다.
 
 ## 구조
 
-- `site/` — 허브(`index.html`), 공통 404·스타일, 확장별 소개·방침·지원 페이지 (`site/<id>/`)
-- `tools/<id>/` — 웹 도구 (예정). 각자 빌드해서 `dist/site/<id>/` 에 결과를 넣는다
+```
+web/                     React 페이지 (Vite 멀티 페이지 + Tailwind + TypeScript)
+  index.html, main.tsx   허브 진입점 → /
+  <id>/                  확장 소개 → /<id>/   (index.html·main.tsx 진입점, Page.tsx 페이지 내용)
+  src/
+    Hub.tsx              허브 화면 (카드는 release.config.json 에서)
+    mount.tsx            진입점(main.tsx)에서만 부르는 mount()
+    Layout.tsx           상단 바·본문 틀·푸터
+    ExtensionPage.tsx    확장 소개 공통 틀 (아이콘·설치 버튼) + Card·Features·H2·Shot
+    config.ts            release.config.json 타입
+    styles.css           Tailwind, 색 토큰(@theme)·다크 모드
+site/                    정적 파일 (빌드 때 그대로 복사 후 자리표시자 채움)
+  404.html, favicon.png
+  assets/site.css        정적 페이지 전용 스타일
+  <id>/                  privacy.html, support.html, icon.png, screenshot-*.png
+vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/
+```
+
+- 빌드 흐름: `vite build` 가 `dist/site/` 를 비우고 `web/` 페이지를 빌드하며 `site/` 를 복사 → `build-site.mjs` 가 `site/` 의 HTML·CSS 자리표시자를 채워 덮어씀
+- 새 React 페이지: `web/<id>/index.html` + `main.tsx`(mount만) + `Page.tsx`(컴포넌트)를 만들면 진입점에 자동으로 들어간다. 진입점과 컴포넌트를 한 파일에 섞지 않는다 (Fast Refresh, ESLint `react-refresh` 규칙). 확장은 `npm run new:ext` 가 `kit/templates/web/` 로 만들어 준다
+- `tools/<id>/` — 웹 도구 (예정). 각자 빌드해서 `dist/site/<id>/` 에 결과를 넣는다. `vite build` 가 `dist/site/` 를 비우므로 도구 빌드는 반드시 그 뒤에 돌린다
 - `extensions/<id>/` — Chrome 확장 소스, `store/<id>/` — 스토어 등록 자료
 - `release.config.json` — 허브 카드 목록(`tools`, `extensions`)과 공통 정보
 - 도구 id와 확장 id는 같은 경로 공간을 쓴다. 겹치면 안 되고, 정한 뒤에는 바꾸지 않는다
@@ -17,21 +36,27 @@ util.cokeys90.dev 전체를 관리하는 저장소. 공개 저장소다.
 - 시크릿 파일 (절대 커밋 금지): `.env*`, Firebase 서비스 계정 키 (`*-firebase-adminsdk-*.json`). 읽지도 말 것
 - 서비스 계정 키는 GitHub Secrets `FIREBASE_SERVICE_ACCOUNT_UTIL_COKEYS90_DEV` 에만 둔다
 - 확장 프로그램에 AI·원격 코드·외부 서버 호출을 넣지 않는다 (스토어 정책, 개인정보처리방침과 어긋남)
+- npm 의존성: `.npmrc` 의 `min-release-age=7` 로 공개 7일 안 된 버전은 설치하지 않는다 (공급망 공격 대비). 끄지 말 것. 급한 보안 패치만 `--min-release-age=0` 으로 한 번
 - 확장 동작(저장하는 데이터, 통신하는 곳, 권한)을 바꾸면 `site/<id>/privacy.html` 과 `store/<id>/listing.md` 도 같이 고친다
 
 ## 명령어
 
-- `npm run check` — 커밋 전, CI에서 실행. JS 문법 + manifest 규칙
-- `npm run build` — `site/` → `dist/site/`. `--strict` 는 예시 값이 남아 있으면 실패 (live 배포에서 사용)
+- `npm run dev` — 개발 서버 (`web/` React 페이지 + `site/` 정적 파일)
+- `npm run check` — 커밋 전, CI에서 실행. JS 문법 + manifest 규칙 + `tsc -p web` + `eslint .`
+- 린트·포맷: ESLint(flat config, `web/`·`vite.config.ts` 대상) + Prettier. 커밋 때 lint-staged가 `eslint --fix`·`prettier --write` 실행
+- TypeScript는 6.0에 둔다. 7(네이티브)은 typescript-eslint가 아직 지원하지 않음 (peer `<6.1`)
+- `npm run build` — `vite build`(web/ + site/ 복사) 후 `build-site.mjs`가 정적 페이지 자리표시자를 채움 → `dist/site/`. `--strict` 는 예시 값이 남아 있으면 실패 (live 배포에서 사용)
 - `npm run pack:ext <id> [--bump patch|minor|major]` — 스토어 업로드 zip
 - `npm run new:ext <id> "<이름>"` — 새 확장
 
 ## 사이트
 
-- 정적 HTML + `site/assets/site.css` 하나. 프레임워크·빌드 도구 없음
-- CSP가 `'self'` 만 허용 → 인라인 `<script>`, `style=""` 속성, 외부 폰트·CDN 금지
+- 허브와 확장 소개 페이지는 React(`web/`), 개인정보처리방침·지원·404는 정적 HTML(`site/`). 방침·지원은 스토어 심사·법적 문서라 JS 없이 읽혀야 하므로 React로 옮기지 않는다
+- SPA 라우터를 쓰지 않는다. 페이지마다 `web/<id>/index.html` 진입점 (도구·확장이 같은 `/<id>/` 경로 공간을 쓰므로)
+- 색 토큰은 `web/src/styles.css`(`@theme`)와 `site/assets/site.css`(`:root`)에 같은 값으로 있다. 바꾸면 양쪽 다 고친다
+- CSP가 `'self'` 만 허용 → 인라인 `<script>`, HTML `style=""` 속성, 외부 폰트·CDN 금지 (React `style={{}}` 도 쓰지 말고 Tailwind 클래스로)
 - 링크는 절대 경로 (`/assets/site.css`, `/<id>/privacy.html`)
-- `{{PLACEHOLDER}}` 는 `kit/scripts/build-site.mjs` 가 `release.config.json` 으로 채운다
+- 정적 페이지의 `{{PLACEHOLDER}}` 는 `kit/scripts/build-site.mjs` 가, React 페이지는 `release.config.json` 을 직접 import 해서 쓴다
 - 캐시: Firebase headers는 요청 경로로 매칭한다. `**/*.html` 만으로는 `/`, `/<id>/` 요청에 안 걸리므로 `firebase.json` 에 디렉터리 경로 규칙을 따로 둔다
 
 ## 웹 도구 옮겨 오기 (예정)

@@ -4,7 +4,8 @@
  *   node kit/scripts/new-extension.mjs <폴더 이름> "<확장 이름>"
  * 만드는 것:
  *   extensions/<폴더>/   MV3 뼈대 (아이콘, 앱 화면, 데이터 지우기 버튼 포함)
- *   site/<폴더>/         소개 · 개인정보처리방침 · 도움말 페이지
+ *   web/<폴더>/          소개 페이지 (React)
+ *   site/<폴더>/         개인정보처리방침 · 도움말 페이지 (정적)
  *   store/<폴더>/        스토어 제출 문구, 스크린샷 폴더
  *   release.config.json  확장 항목 추가
  */
@@ -22,6 +23,7 @@ if (!id || !name || !/^[a-z0-9][a-z0-9-]*$/.test(id)) {
 const T = path.join(ROOT, 'kit', 'templates')
 const targets = [
   ['extension', path.join(ROOT, 'extensions', id)],
+  ['web', path.join(ROOT, 'web', id)],
   ['site', path.join(ROOT, 'site', id)],
   ['store', path.join(ROOT, 'store', id)],
 ]
@@ -57,7 +59,7 @@ cfg.extensions = cfg.extensions || {}
 cfg.extensions[id] = { name, storeUrl: '', privacyUpdated: new Date().toISOString().slice(0, 10) }
 writeJSON(cfgPath, cfg)
 
-console.log(`✓ extensions/${id}/, site/${id}/, store/${id}/ 를 만들었습니다.`)
+console.log(`✓ extensions/${id}/, web/${id}/, site/${id}/, store/${id}/ 를 만들었습니다.`)
 console.log(
   '다음 할 일: kit/CHECKLIST.md 를 위에서부터 따라가세요. 아이콘은 extensions/' +
     id +
