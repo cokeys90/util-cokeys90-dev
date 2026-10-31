@@ -1,43 +1,30 @@
 @import 'tailwindcss';
 
-/* 색은 site/assets/site.css(정적 페이지)와 같은 값을 씀. 바꾸면 양쪽 다 고칠 것 */
+@import '../../site/assets/tokens.css';
+
+/* 색·글꼴 값은 tokens.css 하나에만 둠(정적 페이지와 공유). 여기서는 Tailwind 이름만 붙임 */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
+  --font-sans: var(--f-body);
+  --font-mono: var(--f-mono);
+}
+
 @theme {
-  --color-bg: #f6f7f9;
-  --color-surface: #ffffff;
-  --color-line: #dde3e9;
-  --color-fg: #17212b;
-  --color-muted: #5d6b78;
-  --color-faint: #8a96a2;
-  --color-brand: #6a4fbf;
-  --color-brand-soft: #ebe5f8;
-  --color-ok: #127a52;
-  --color-ok-soft: #dcf1e7;
-  --font-sans:
-    Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', system-ui, -apple-system,
-    sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --animate-caret: caret 1.1s steps(1) infinite;
 
   @keyframes caret {
     50% {
       opacity: 0;
     }
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #11161b;
-    --color-surface: #182028;
-    --color-line: #2b3742;
-    --color-fg: #e6ecf1;
-    --color-muted: #9aa8b5;
-    --color-faint: #6f7d8a;
-    --color-brand: #a98ef0;
-    --color-brand-soft: #2a2342;
-    --color-ok: #4fcf97;
-    --color-ok-soft: #15342a;
-    color-scheme: dark;
   }
 }
 
