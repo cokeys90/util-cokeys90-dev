@@ -1,0 +1,30 @@
+{
+  "name": "util-cokeys90-dev",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "util.cokeys90.dev — web tools & Chrome extensions hub",
+  "scripts": {
+    "build": "node kit/scripts/build-site.mjs",
+    "build:strict": "node kit/scripts/build-site.mjs --strict",
+    "pack:ext": "node kit/scripts/pack.mjs",
+    "new:ext": "node kit/scripts/new-extension.mjs",
+    "check": "node kit/scripts/check.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,mjs,json,css,md,html}": [
+      "prettier --write"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3"
+  }
+}

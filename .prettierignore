@@ -1,0 +1,9 @@
+dist/
+node_modules/
+package-lock.json
+.firebase/
+# 확장 프로그램 소스와 사이트 HTML은 손으로 정리한 형태를 유지한다
+extensions/
+site/
+kit/templates/
+store/
