@@ -1,6 +1,6 @@
-# side-quests
+# ToolHub
 
-> 본업 사이사이 깨는 서브 퀘스트. 직접 쓰려고 만든 작은 도구들입니다.
+> '언젠가 만들어야지' 하고 미뤄 둔 도구들, AI도 있겠다 이때다 싶어서 드디어 만들었어요. 직접 쓰려고 만든 작은 도구 모음이에요.
 > Small tools I build to scratch my own itches. No servers, no tracking.
 
 [util.cokeys90.dev](https://util.cokeys90.dev) 전체를 관리하는 저장소입니다. 웹 도구와 Chrome 확장 프로그램이 모두 이 도메인의 경로(`/<id>/`) 아래에 놓이고, 첫 화면은 그 목록을 보여 주는 허브입니다.

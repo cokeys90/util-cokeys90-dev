@@ -1,7 +1,7 @@
 {
   "site": {
-    "title": "side-quests",
-    "tagline": "본업 사이사이 깨는 서브 퀘스트. 직접 쓰려고 만든 작은 도구들입니다.",
+    "title": "ToolHub",
+    "tagline": "'언젠가 만들어야지' 하고 미뤄 둔 도구들, AI도 있겠다 이때다 싶어서 드디어 만들었어요. 직접 쓰려고 만든 작은 도구 모음이에요.",
     "repo": "https://github.com/cokeys90/util-cokeys90-dev"
   },
   "developer": "cokeys90",
