@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>구독 채널 정리함</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>구독 채널 정리함</h1>
+      <p class="sub" id="subtitle">이 브라우저에 로그인된 YouTube 계정의 구독 채널을 정리합니다. 모든 데이터는 이 브라우저 안에만 저장됩니다.</p>
+    </div>
+    <ol class="steps" id="steps">
+      <li data-s="accounts"><b>1</b>계정 선택</li>
+      <li data-s="board"><b>2</b>정리</li>
+      <li data-s="run"><b>3</b>실행</li>
+    </ol>
+  </header>
+
+  <!-- 1. 계정 선택 -->
+  <section id="viewAccounts" class="view">
+    <div class="panel">
+      <div class="panel-h">
+        <h2>정리할 계정을 고르세요</h2>
+        <button class="btn" id="reloadAccounts" type="button">다시 불러오기</button>
+      </div>
+      <p class="hint">1개를 고르면 그 계정의 구독을 정리하고, 2개 이상 고르면 구독 목록을 하나로 합칩니다.</p>
+      <div class="status" id="acctStatus" role="status"></div>
+      <div class="acct-grid" id="acctGrid"></div>
+      <div class="actions">
+        <span class="hint" id="selInfo"></span>
+        <button class="btn primary" id="loadBtn" type="button" disabled>다음</button>
+      </div>
+    </div>
+    <p class="foot">
+      정리 상태와 최근 업로드 기록은 이 브라우저에만 저장됩니다.
+      <button class="linkbtn" id="clearData" type="button">저장된 데이터 지우기</button>
+    </p>
+  </section>
+
+  <!-- 2. 정리 -->
+  <section id="viewBoard" class="view" hidden>
+    <div class="chosen" id="chosen"></div>
+
+    <section class="panel merge" aria-label="요약">
+      <div class="panel-h">
+        <h2 id="targetTitle">남길 계정</h2>
+        <p class="hint" id="targetHint"></p>
+      </div>
+      <div class="target-row" id="targetRow" role="radiogroup" aria-label="남길 계정"></div>
+      <div id="compare">
+        <div class="strip" id="strip"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="plan" id="plan" aria-live="polite"></div>
+      <div class="act-progress" id="actProgress"></div>
+    </section>
+
+    <div class="bar">
+      <label class="search" for="q">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="채널명이나 핸들로 찾기" autocomplete="off">
+      </label>
+      <select id="sort" aria-label="정렬"></select>
+      <button class="btn" id="resetBtn" type="button">처음 상태로</button>
+      <button class="btn primary" id="toRunBtn" type="button">실행하기</button>
+    </div>
+    <div class="filters">
+      <div class="chips" id="srcChips" role="group" aria-label="출처"></div>
+      <div class="chips" id="actChips" role="group" aria-label="활동"></div>
+      <button class="btn small ghost" id="bulkDrop" type="button" hidden></button>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button id="tabKeep" role="tab" aria-selected="true" type="button">남길 채널 <span class="num" id="tKeep"></span></button>
+      <button id="tabDrop" role="tab" aria-selected="false" type="button">빼둔 채널 <span class="num" id="tDrop"></span></button>
+    </div>
+
+    <div class="lanes" id="lanes" data-view="keep">
+      <section class="lane keepside">
+        <div class="lane-h"><h2>남길 채널</h2><small>→ 버튼이나 오른쪽으로 끌어서 빼기</small></div>
+        <div class="list" id="keepList" data-lane="keep"></div>
+      </section>
+      <section class="lane dropside">
+        <div class="tray">
+          <div class="lane-h"><h2>빼둔 채널</h2><button class="icon in" id="restoreAll" title="모두 다시 넣기" aria-label="모두 다시 넣기" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg></button></div>
+          <div class="list" id="dropList" data-lane="drop"></div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- 3. 실행 -->
+  <section id="viewRun" class="view" hidden>
+    <div class="panel" id="runConfirm">
+      <div class="panel-h"><h2>실행 전 확인</h2></div>
+      <div class="run-target" id="runTarget"></div>
+      <div class="plan" id="runPlan"></div>
+      <ul class="notes" id="runNotes"></ul>
+      <details class="preview"><summary>바뀌는 채널 목록 보기</summary><div id="runPreview"></div></details>
+      <div class="actions">
+        <button class="btn" id="runBack" type="button">돌아가기</button>
+        <button class="btn primary" id="runStart" type="button">시작</button>
+      </div>
+    </div>
+
+    <div class="panel" id="runPanel" hidden>
+      <div class="panel-h">
+        <h2 id="runTitle">진행 중</h2>
+        <div class="btns">
+          <button class="btn" id="runShowWin" type="button">작업 창 보기</button>
+          <button class="btn" id="runPause" type="button">일시정지</button>
+          <button class="btn" id="runResume" type="button" hidden>계속</button>
+          <button class="btn" id="runStop" type="button">중지</button>
+        </div>
+      </div>
+      <div class="progress" aria-hidden="true"><div class="progress-fill" id="runFill"></div></div>
+      <div class="run-stats" id="runStats"></div>
+      <div class="run-current" id="runCurrent"></div>
+      <div class="run-result" id="runResult" hidden></div>
+      <div class="term">
+        <div class="term-h">
+          <span class="term-title"><i></i><i></i><i></i>실행 로그</span>
+          <span class="term-btns"><button type="button" id="logCopy">복사</button><button type="button" id="logSave">저장</button></span>
+        </div>
+        <div class="term-body" id="runLog" role="log" aria-label="실행 로그"></div>
+        <button class="term-jump" id="logJump" type="button" hidden>최신 로그로 ↓</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast" id="toast" role="status"><span id="toastMsg"></span><button id="undoBtn" type="button">되돌리기</button></div>
+
+<script src="common.js"></script>
+<script src="inject.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
