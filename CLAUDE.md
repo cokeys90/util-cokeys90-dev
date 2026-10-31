@@ -16,9 +16,10 @@ web/                     React 페이지 (Vite 멀티 페이지 + Tailwind + Typ
     Layout.tsx           상단 바·본문 틀·푸터
     ExtensionPage.tsx    확장 소개 공통 틀 (아이콘·설치 버튼) + Card·Features·H2·Shot
     config.ts            release.config.json 타입
-    styles.css           Tailwind, 색 토큰(@theme)·다크 모드
+    styles.css           Tailwind. 색은 tokens.css 를 @theme inline 으로 연결만
 site/                    정적 파일 (빌드 때 그대로 복사 후 자리표시자 채움)
   404.html, favicon.png
+  assets/tokens.css      색·글꼴 토큰과 다크 모드 (정적·React 페이지 공용, 색은 여기서만 고침)
   assets/site.css        정적 페이지 전용 스타일
   <id>/                  privacy.html, support.html, icon.png, screenshot-*.png
 vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/
@@ -42,21 +43,36 @@ vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/
 ## 명령어
 
 - `npm run dev` — 개발 서버 (`web/` React 페이지 + `site/` 정적 파일)
-- `npm run check` — 커밋 전, CI에서 실행. JS 문법 + manifest 규칙 + `tsc -p web` + `eslint .`
+- `npm run check` — JS 문법 + manifest 규칙 + `tsc -p web` + `eslint .`
+- `npm run verify` — check + `build:strict` + `verify-dist.mjs`(필수 페이지·자리표시자·CSP 위반·깨진 참조). push 전과 CI에서 이것 하나로 판정
 - 린트·포맷: ESLint(flat config, `web/`·`vite.config.ts` 대상) + Prettier. 커밋 때 lint-staged가 `eslint --fix`·`prettier --write` 실행
 - TypeScript는 6.0에 둔다. 7(네이티브)은 typescript-eslint가 아직 지원하지 않음 (peer `<6.1`)
 - `npm run build` — `vite build`(web/ + site/ 복사) 후 `build-site.mjs`가 정적 페이지 자리표시자를 채움 → `dist/site/`. `--strict` 는 예시 값이 남아 있으면 실패 (live 배포에서 사용)
 - `npm run pack:ext <id> [--bump patch|minor|major]` — 스토어 업로드 zip
 - `npm run new:ext <id> "<이름>"` — 새 확장
 
+## 검사 단계 (main push = 바로 운영 배포)
+
+| 단계    | 무엇                                                                | 어디                                                |
+| ------- | ------------------------------------------------------------------- | --------------------------------------------------- |
+| 커밋    | 바뀐 파일만 `eslint --fix` + `prettier`                             | `.husky/pre-commit` (lint-staged)                   |
+| push 전 | `npm run verify`                                                    | `.husky/pre-push`                                   |
+| CI      | `npm ci` → `npm run verify` 통과해야 배포 (PR 미리보기도 같은 기준) | `.github/workflows/`                                |
+| 배포 후 | 운영 주소 주요 페이지 200 + 이번 빌드 JS가 반영됐는지               | `kit/scripts/smoke-live.mjs` (live 워크플로 마지막) |
+
+- 훅을 `--no-verify` 로 건너뛰지 않는다. 실패하면 원인을 고친다
+- 새 페이지 종류나 CSP에 걸릴 만한 것을 넣으면 `verify-dist.mjs` 점검 항목도 같이 늘린다
+- 단위 테스트 프레임워크는 아직 없음. 인터랙션 로직(필터·검색 등)이 생기면 그 함수만 `node --test` 로 테스트하고 `verify` 에 넣는다. 화면 동작이 복잡해지면 Playwright 콘솔 에러 점검을 검토
+
 ## 사이트
 
 - 허브와 확장 소개 페이지는 React(`web/`), 개인정보처리방침·지원·404는 정적 HTML(`site/`). 방침·지원은 스토어 심사·법적 문서라 JS 없이 읽혀야 하므로 React로 옮기지 않는다
 - SPA 라우터를 쓰지 않는다. 페이지마다 `web/<id>/index.html` 진입점 (도구·확장이 같은 `/<id>/` 경로 공간을 쓰므로)
-- 색 토큰은 `web/src/styles.css`(`@theme`)와 `site/assets/site.css`(`:root`)에 같은 값으로 있다. 바꾸면 양쪽 다 고친다
+- 색·글꼴 값은 `site/assets/tokens.css` 하나에만 둔다. 새 색은 거기에 변수를 만들고 `styles.css` 의 `@theme inline` 에 이름을 붙인다
 - CSP가 `'self'` 만 허용 → 인라인 `<script>`, HTML `style=""` 속성, 외부 폰트·CDN 금지 (React `style={{}}` 도 쓰지 말고 Tailwind 클래스로)
 - 링크는 절대 경로 (`/assets/site.css`, `/<id>/privacy.html`)
 - 정적 페이지의 `{{PLACEHOLDER}}` 는 `kit/scripts/build-site.mjs` 가, React 페이지는 `release.config.json` 을 직접 import 해서 쓴다
+- 캐시: `/assets/*-*.(js|css)` (Vite 해시 파일)는 1년 `immutable`. 그래서 `site/assets/` 의 해시 없는 파일 이름에 `-` 를 넣지 않는다 (바꿔도 1년 동안 옛 파일이 쓰임)
 - 캐시: Firebase headers는 요청 경로로 매칭한다. `**/*.html` 만으로는 `/`, `/<id>/` 요청에 안 걸리므로 `firebase.json` 에 디렉터리 경로 규칙을 따로 둔다
 
 ## 웹 도구 옮겨 오기 (예정)

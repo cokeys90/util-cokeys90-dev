@@ -47,7 +47,8 @@ release.config.json     사이트 제목, 개발자 정보, 도구·확장 목�
 ```bash
 npm install                         # 처음 한 번
 npm run dev                         # 개발 서버 (React 페이지 + site/ 정적 파일)
-npm run check                       # JS 문법 + manifest 규칙 + 타입체크
+npm run check                       # JS 문법 + manifest 규칙 + 타입체크 + ESLint
+npm run verify                      # check + strict 빌드 + 결과물 점검 (push 전 훅·CI와 같음)
 npm run build                       # web/ + site/ → dist/site/ (Firebase 공개 폴더)
 npm run preview                     # 빌드 결과 미리 보기
 npm run pack:ext subs-organizer     # dist/subs-organizer-<ver>.zip (스토어 업로드용)

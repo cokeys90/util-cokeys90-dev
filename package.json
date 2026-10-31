@@ -13,6 +13,7 @@
     "new:ext": "node kit/scripts/new-extension.mjs",
     "check": "node kit/scripts/check.mjs && tsc -p web && eslint .",
     "lint": "eslint .",
+    "verify": "npm run check && npm run build:strict && node kit/scripts/verify-dist.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"

@@ -33,7 +33,11 @@ export default defineConfig({
     tailwindcss(),
     {
       name: 'site-config-html',
-      transformIndexHtml: (html) => html.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => htmlVars[k] ?? m),
+      transformIndexHtml: (html) =>
+        html.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => {
+          if (!(k in htmlVars)) throw new Error(`web/ HTML에 모르는 자리표시자 ${m}`)
+          return htmlVars[k]
+        }),
     },
   ],
   build: {
