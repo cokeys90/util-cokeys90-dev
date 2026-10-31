@@ -19,7 +19,7 @@ web/                     React 페이지 (Vite 멀티 페이지 + Tailwind + Typ
     styles.css           Tailwind. 색은 tokens.css 를 @theme inline 으로 연결만
 site/                    정적 파일 (빌드 때 그대로 복사 후 자리표시자 채움)
   404.html, favicon.png
-  assets/tokens.css      색·글꼴 토큰과 다크 모드 (정적·React 페이지 공용, 색은 여기서만 고침)
+  assets/tokens.css      색·글꼴 토큰 (정적·React 페이지 공용, 색은 여기서만 고침). 다크 모드는 두지 않음
   assets/site.css        정적 페이지 전용 스타일
   <id>/                  privacy.html, support.html, icon.png, screenshot-*.png
 vite.config.ts           web/*/index.html 자동 진입점, publicDir = site/

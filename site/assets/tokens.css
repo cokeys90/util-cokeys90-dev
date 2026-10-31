@@ -1,4 +1,4 @@
-/* 색·글꼴 토큰. 정적 페이지(site.css)와 React 페이지(web/src/styles.css)가 같이 씀. 색은 여기서만 고친다 */
+/* 색·글꼴 토큰. 정적 페이지(site.css)와 React 페이지(web/src/styles.css)가 같이 씀. 색은 여기서만 고친다. 다크 모드 없음(color-scheme:light 고정) */
 :root{
   --bg:#f6f7f9; --surface:#ffffff; --line:#dde3e9;
   --fg:#17212b; --muted:#5d6b78; --faint:#8a96a2;
@@ -7,9 +7,3 @@
   --f-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
   color-scheme:light;
 }
-@media (prefers-color-scheme:dark){:root{
-  --bg:#11161b; --surface:#182028; --line:#2b3742;
-  --fg:#e6ecf1; --muted:#9aa8b5; --faint:#6f7d8a;
-  --brand:#a98ef0; --brand-soft:#2a2342; --ok:#4fcf97; --ok-soft:#15342a;
-  color-scheme:dark;
-}}
